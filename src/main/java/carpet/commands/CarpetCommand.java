@@ -42,7 +42,7 @@ public class CarpetCommand
         literalargumentbuilder.executes((context)->listAllSettings(context.getSource())).
                 then(literal("list").
                         executes( (c) -> listSettings(c.getSource(),
-                                "All CarpetMod Settings",
+                                "所有的Carpet Mod设置选项",
                                 SettingsManager.getRules())).
                         then(literal("defaults").
                                 executes( (c)-> listSettings(c.getSource(),
@@ -85,12 +85,12 @@ public class CarpetCommand
         }
         catch (CommandSyntaxException e)
         {
-            Messenger.m(source, "w "+rule.name +" is set to: ","wb "+rule.getAsString());
+            Messenger.m(source, "w "+rule.name +" 被设置为 ","wb "+rule.getAsString());
             return 1;
         }
 
         Messenger.m(player, "");
-        Messenger.m(player, "wb "+rule.name,"!/carpet "+rule.name,"^g refresh");
+        Messenger.m(player, "wb "+rule.name,"!/carpet "+rule.name,"^g 刷新");
         Messenger.m(player, "w "+rule.description);
 
         rule.extraInfo.forEach(s -> Messenger.m(player, "g " + s));
@@ -105,9 +105,9 @@ public class CarpetCommand
         tags.remove(tags.size()-1);
         Messenger.m(player, tags.toArray(new Object[0]));
 
-        Messenger.m(player, "w Current value: ",String.format("%s %s (%s value)",rule.getBoolValue()?"lb":"nb", rule.getAsString(),rule.isDefault()?"default":"modified"));
+        Messenger.m(player, "w 目前值: ",String.format("%s %s (%s值)",rule.getBoolValue()?"lb":"nb", rule.getAsString(),rule.isDefault()?"默认":"修改过的"));
         List<ITextComponent> options = new ArrayList<>();
-        options.add(Messenger.c("w Options: ", "y [ "));
+        options.add(Messenger.c("w 选项: ", "y [ "));
         for (String o: rule.options)
         {
             options.add(Messenger.c(makeSetRuleButton(rule, o, false)));
@@ -123,21 +123,21 @@ public class CarpetCommand
     private static int setRule(CommandSource source, ParsedRule<?> rule, String newValue)
     {
         if (rule.set(source, newValue) != null)
-            Messenger.m(source, "w "+rule.toString()+", ", "c [change permanently?]",
-                    "^w Click to keep the settings in carpet.conf to save across restarts",
+            Messenger.m(source, "w "+rule.toString()+", ", "c [退出游戏后保留这个更改？]",
+                    "^w 点击此处将规则写入carpet.conf文件以在下一次打开游戏/服务器时读取",
                     "?/carpet setDefault "+rule.name+" "+rule.getAsString());
         return 1;
     }
     private static int setDefault(CommandSource source, ParsedRule<?> rule, String defaultValue)
     {
         if (CarpetServer.settingsManager.setDefaultRule(source, rule.name, defaultValue))
-            Messenger.m(source ,"gi rule "+ rule.name+" will now default to "+ defaultValue);
+            Messenger.m(source ,"gi rule "+ rule.name+" 将会默认为 "+ defaultValue);
         return 1;
     }
     private static int removeDefault(CommandSource source, ParsedRule<?> rule)
     {
         if (CarpetServer.settingsManager.removeDefaultRule(source, rule.name))
-            Messenger.m(source ,"gi rule "+ rule.name+" defaults to Vanilla");
+            Messenger.m(source ,"gi rule "+ rule.name+" 原版默认选项");
         return 1;
     }
 
@@ -169,7 +169,7 @@ public class CarpetCommand
             return Messenger.c(baseText, "^g Settings are locked");
         if (option.equalsIgnoreCase(rule.getAsString()))
             return Messenger.c(baseText);
-        return Messenger.c(baseText, "^g Switch to " + option, "?/carpet " + rule.name + " " + option);
+        return Messenger.c(baseText, "^g 选择至 " + option, "?/carpet " + rule.name + " " + option);
     }
 
     private static int listSettings(CommandSource source, String title, Collection<ParsedRule<?>> settings_list)
@@ -190,9 +190,9 @@ public class CarpetCommand
     }
     private static int listAllSettings(CommandSource source)
     {
-        listSettings(source, "Current CarpetMod Settings", CarpetServer.settingsManager.getNonDefault());
+        listSettings(source, "目前Carpet Mod设置选项", CarpetServer.settingsManager.getNonDefault());
 
-        Messenger.m(source, "Carpet Mod version: "+CarpetSettings.carpetVersion);
+        Messenger.m(source, "Carpet Mod版本: "+CarpetSettings.carpetVersion);
         try
         {
             EntityPlayer player = source.asPlayer();
@@ -201,7 +201,7 @@ public class CarpetCommand
             for (String t : SettingsManager.getCategories())
             {
                 tags.add("c [" + t+"]");
-                tags.add("^g list all " + t + " settings");
+                tags.add("^g 列出所有" + t + "选项");
                 tags.add("!/carpet list " + t);
                 tags.add("w  ");
             }
