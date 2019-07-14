@@ -1,5 +1,14 @@
->>此为汉化版carpet mod，更新可能不及时。原版carpetMod下载：https://github.com/gnembon/carpetmod/releases
 >>使用方法：找到installer.7z，解压，按照readme.txt做。
+
+
+
+
+
+
+>>此为汉化版carpet mod，更新可能不及时。原版carpetMod下载：https://github.com/gnembon/carpetmod/releases
+>>
+
+
 
 
 
