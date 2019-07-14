@@ -1,3 +1,15 @@
+>>此为汉化版carpet mod，更新可能不及时。原版carpetMod下载：https://github.com/gnembon/carpetmod/releases
+>>使用方法：找到installer.7z，解压，按照readme.txt做。
+
+
+
+
+
+
+
+
+
+
 # CarpetMod for Minecraft 1.13.2
 The most comprehensive and convoluted mod for carpets evar. Built based on jarmod-buildsystem-2 by Earthcomputer using Forge Gradle system by Minecraft Forge team. See Earthcomputer's repo for details on the build system.
 
