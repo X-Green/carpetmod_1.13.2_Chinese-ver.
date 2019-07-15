@@ -46,12 +46,12 @@ public class CarpetCommand
                                 SettingsManager.getRules())).
                         then(literal("defaults").
                                 executes( (c)-> listSettings(c.getSource(),
-                                        "Current CarpetMod Startup Settings from carpet.conf",
+                                        "从carpet.conf中加载配置信息",
                                         CarpetServer.settingsManager.findStartupOverrides()))).
                         then(argument("tag",StringArgumentType.word()).
                                 suggests( (c, b)->suggest(SettingsManager.getCategories(), b)).
                                 executes( (c) -> listSettings(c.getSource(),
-                                        String.format("CarpetMod Settings matching \"%s\"", StringArgumentType.getString(c, "tag")),
+                                        String.format("CarpetMod选项: \"%s\"", GetDisplayName(StringArgumentType.getString(c, "tag"))),
                                         CarpetServer.settingsManager.getRulesMatching(StringArgumentType.getString(c, "tag")))))).
                 then(literal("removeDefault").
                         requires(s -> !CarpetServer.settingsManager.locked).
@@ -78,6 +78,7 @@ public class CarpetCommand
 
     private static int displayRuleMenu(CommandSource source, ParsedRule<?> rule)
     {
+    	
         EntityPlayer player;
         try
         {
@@ -99,7 +100,7 @@ public class CarpetCommand
         tags.add(Messenger.c("w Tags: "));
         for (String t: rule.categories)
         {
-            tags.add(Messenger.c("c ["+t+"]", "^g list all "+t+" settings","!/carpet list "+t));
+            tags.add(Messenger.c("c ["+GetDisplayName(t)+"]", "^g 列出所有["+GetDisplayName(t)+"]选项","!/carpet list "+t));
             tags.add(Messenger.c("w , "));
         }
         tags.remove(tags.size()-1);
@@ -131,7 +132,7 @@ public class CarpetCommand
     private static int setDefault(CommandSource source, ParsedRule<?> rule, String defaultValue)
     {
         if (CarpetServer.settingsManager.setDefaultRule(source, rule.name, defaultValue))
-            Messenger.m(source ,"gi rule "+ rule.name+" 将会默认为 "+ defaultValue);
+            Messenger.m(source ,"gi 规则"+ rule.name+" 将会默认为 "+ defaultValue);
         return 1;
     }
     private static int removeDefault(CommandSource source, ParsedRule<?> rule)
@@ -166,7 +167,7 @@ public class CarpetCommand
             style = style+"u";
         String baseText = style + (brackets ? " [" : " ") + option + (brackets ? "]" : "");
         if (CarpetServer.settingsManager.locked)
-            return Messenger.c(baseText, "^g Settings are locked");
+            return Messenger.c(baseText, "^g设置已锁定");
         if (option.equalsIgnoreCase(rule.getAsString()))
             return Messenger.c(baseText);
         return Messenger.c(baseText, "^g 选择至 " + option, "?/carpet " + rule.name + " " + option);
@@ -197,11 +198,12 @@ public class CarpetCommand
         {
             EntityPlayer player = source.asPlayer();
             List<Object> tags = new ArrayList<>();
-            tags.add("w Browse Categories:\n");
+            tags.add("w §l选项目录:\n");
             for (String t : SettingsManager.getCategories())
             {
-                tags.add("c [" + t+"]");
-                tags.add("^g 列出所有" + t + "选项");
+            	
+                tags.add("c [" + GetDisplayName(t)+"]");
+                tags.add("^g 列出所有[" + GetDisplayName(t) + "]选项");
                 tags.add("!/carpet list " + t);
                 tags.add("w  ");
             }
@@ -212,5 +214,51 @@ public class CarpetCommand
         {
         }
         return 1;
+    }
+    
+    public static String GetDisplayName(String nameOfCategory) 
+    {
+    	//StringBuffer DisplayName = new StringBuffer(null);
+    	switch(nameOfCategory)
+    	{
+    		case "bugfix":
+    			//DisplayName.append("bug修复");
+    			String a = "bug修复";
+    			return a;
+    		case "survival":
+    			//DisplayName.append("生存模式");
+    			String b = "生存模式";
+    			return b;
+    		case "creative":
+    			//DisplayName.append("创造模式");
+    			String c = "创造模式";
+    			return c;
+    		case "experimental":
+    			//DisplayName.append("实验性的（可能不稳定）");
+    			String d = "实验性的";
+    			return d;
+    		case "optimization":
+    			//DisplayName.append("优化");
+    			String e = "优化";
+    			return e;
+    		case "feature":
+    			//DisplayName.append("特性");
+    			String f = "特性";
+    			return f;
+    		case "command":
+    			//DisplayName.append("命令");
+    			String g = "命令";
+    			return g;
+    		case "destructive":
+    			//DisplayName.append("毁灭性的");
+    			String h = "毁灭性的";
+    			return h;
+    		default :
+    			//DisplayName.append("未知");
+    			String i = "未知";
+    			return i;
+    	}
+    	
+    	
     }
 }
